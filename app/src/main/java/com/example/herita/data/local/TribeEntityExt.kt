@@ -17,7 +17,7 @@ fun TribeEntity.toUi(context: Context): TribeUi {
     val drawableId = if (resId != 0) resId else R.drawable.batak // fallback
 
     return TribeUi(
-        tribeId = this.tribeId,   // ⬅️ INI KUNCI PERBAIKAN
+        tribeId = this.tribeId,
         name = this.name,
         imageRes = drawableId
     )

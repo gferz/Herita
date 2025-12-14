@@ -6,7 +6,6 @@ import com.example.herita.data.remote.MaterialJson
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
-import android.util.Log
 
 object SeedMaterialLoader {
 
@@ -18,20 +17,17 @@ object SeedMaterialLoader {
                     Gson().fromJson(reader, type)
 
                 return jsonList.map {
-                    Log.d(
-                        "SeedMaterial",
-                        "insert tribeId='${it.tribeId}' topic='${it.topic}' title='${it.title}'"
-                    )
-
                     MaterialEntity(
                         materialId = it.materialId,
                         tribeId = it.tribeId,
                         topic = it.topic,
-                        title = it.title,
-                        content = it.content
+                        title = it.title ?: "",
+                        content = it.content,
+                        isCompleted = false   // 🔑 PENTING untuk progress
                     )
                 }
             }
         }
     }
 }
+

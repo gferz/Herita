@@ -8,6 +8,8 @@ data class MaterialEntity(
     @PrimaryKey val materialId: String,
     val tribeId: String,
     val topic: String,
-    val title: String?,
-    val content: String // bisa HTML/markdown atau plain text
+    val title: String,
+    val content: String,
+
+    val isCompleted: Boolean = false
 )

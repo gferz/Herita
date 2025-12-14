@@ -42,4 +42,36 @@ interface MaterialDao {
         tribeId: String,
         topic: String
     )
+    /**
+     * Menandai satu material sebagai selesai
+     * Dipanggil saat tombol "Akhiri Pembelajaran"
+     */
+    @Query("""
+        UPDATE material
+        SET isCompleted = 1
+        WHERE materialId = :materialId
+    """)
+    suspend fun markMaterialCompleted(materialId: String)
+
+    /**
+     * Menghitung jumlah material yang sudah selesai
+     * untuk satu suku tertentu
+     */
+    @Query("""
+        SELECT COUNT(*) FROM material
+        WHERE tribeId = :tribeId
+        AND isCompleted = 1
+    """)
+    suspend fun countCompletedByTribe(tribeId: String): Int
+
+    /**
+     * (Opsional tapi rapi)
+     * Reset progress belajar satu suku
+     */
+    @Query("""
+        UPDATE material
+        SET isCompleted = 0
+        WHERE tribeId = :tribeId
+    """)
+    suspend fun resetProgressForTribe(tribeId: String)
 }
