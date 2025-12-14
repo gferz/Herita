@@ -1,5 +1,6 @@
 package com.example.herita.view
 
+import com.example.herita.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,7 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,7 +24,6 @@ import androidx.compose.ui.unit.sp
 object QuizColors {
     val Primary = Color(0xFF1B5E20)
     val Secondary = Color(0xFFD32F2F)
-    val Surface = Color(0xFFF5F5F5)
     val BottomBarBg = Color(0xFF3E2723)
     val ButtonPrimary = Color(0xFF000000)
     val ButtonSecondary = Color(0xFFE0E0E0)
@@ -180,21 +180,27 @@ fun QuizStartContent(
                 lineHeight = 40.sp
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(35.dp))
 
             // Character Image Placeholder
             Box(
                 modifier = Modifier
-                    .size(280.dp)
-                    .background(Color(0xFFF5F5F5), RoundedCornerShape(16.dp)),
+                    .size(330.dp)
+                    .background(Color(0xFFFFFFFF), RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 // Placeholder untuk gambar karakter
-                Icon(
-                    Icons.Default.EmojiEmotions,
-                    contentDescription = null,
-                    modifier = Modifier.size(140.dp),
-                    tint = Color(0xFFBDBDBD)
+//                Icon(
+//                    painter = painterResource(id = R.drawable.batak),
+//                    contentDescription = null,
+//                    modifier = Modifier.size(140.dp),
+//                    tint = Color(0xFFBDBDBD)
+//                )
+                Image(
+                    painter = painterResource(id = R.drawable.quizman),
+                    contentDescription = "Deskripsi",
+                    modifier = Modifier.size(330.dp),
+                    contentScale = ContentScale.Crop // atau Fit, FillBounds, dll
                 )
             }
         }
@@ -557,21 +563,21 @@ fun QuizCompletedContent(
                 lineHeight = 36.sp
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(35.dp))
 
             // Character Image Placeholder (sleeping)
             Box(
                 modifier = Modifier
-                    .size(280.dp)
-                    .background(Color(0xFFF5F5F5), RoundedCornerShape(16.dp)),
+                    .size(330.dp)
+                    .background(Color(0xFFFFFFFF), RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 // Placeholder untuk gambar karakter tidur
-                Icon(
-                    Icons.Default.Bedtime,
-                    contentDescription = null,
-                    modifier = Modifier.size(140.dp),
-                    tint = Color(0xFFBDBDBD)
+                Image(
+                    painter = painterResource(id = R.drawable.sleep),
+                    contentDescription = "Deskripsi",
+                    modifier = Modifier.size(330.dp),
+                    contentScale = ContentScale.Crop // atau Fit, FillBounds, dll
                 )
             }
 
