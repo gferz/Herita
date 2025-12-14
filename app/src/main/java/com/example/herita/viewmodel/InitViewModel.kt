@@ -19,11 +19,16 @@ sealed class InitDataState {
     object Loading : InitDataState()
     object NoUser : InitDataState()
     data class HasUser(val user: UserEntity) : InitDataState()
+    data class Error(val message: String) : InitDataState()
 }
+
 
 class InitViewModel(application: Application) : AndroidViewModel(application){
     private val _initDataState = MutableStateFlow<InitDataState>(InitDataState.Loading)
     val initDataState: StateFlow<InitDataState> = _initDataState.asStateFlow()
+
+
+    private val _userData: UserEntity? = null
 
     private val userRepository: UserRepository
 
@@ -41,8 +46,22 @@ class InitViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
+    fun getUser(): UserEntity? {
+        return _userData
+    }
+
     fun insertUser(name: String, age: Int) = viewModelScope.launch {
+        _initDataState.value = InitDataState.Loading
+
         userRepository.createUser(name, age)
+
+        userRepository.getUser().collect { user ->
+            _initDataState.value = if(user != null){
+                InitDataState.HasUser(user)
+            }else{
+                InitDataState.Error("Something Wrong")
+            }
+        }
     }
 
     fun clearUser() = viewModelScope.launch {

@@ -9,7 +9,8 @@ import com.example.herita.ui.theme.HeritaTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
+
         setContent {
             HeritaTheme {
                 App()
