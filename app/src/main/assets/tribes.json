@@ -1,0 +1,20 @@
+[
+  {
+    "tribeId": "batak",
+    "name": "Batak",
+    "description": "Suku Batak dari Sumatera Utara.",
+    "imageName": "batak"
+  },
+  {
+    "tribeId": "minang",
+    "name": "Minang",
+    "description": "Suku Minang dari Sumatera Barat.",
+    "imageName": "minang"
+  },
+  {
+    "tribeId": "toraja",
+    "name": "Toraja",
+    "description": "Suku Toraja dari Sulawesi Selatan.",
+    "imageName": "toraja"
+  }
+]

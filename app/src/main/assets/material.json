@@ -1,0 +1,109 @@
+[
+  {
+    "materialId": "batak_adat",
+    "tribeId": "batak",
+    "topic": "Adat istiadat",
+    "title": "Adat Istiadat Suku Batak",
+    "content": "Suku Batak memiliki adat istiadat yang kuat dan masih dijunjung tinggi hingga saat ini. Adat Batak mengatur berbagai aspek kehidupan, seperti pernikahan, kelahiran, dan kematian, yang biasanya dilaksanakan melalui upacara adat yang melibatkan keluarga besar."
+  },
+  {
+    "materialId": "batak_baju",
+    "tribeId": "batak",
+    "topic": "Baju adat",
+    "title": "Baju Adat Suku Batak",
+    "content": "Baju adat Batak identik dengan penggunaan kain ulos. Ulos memiliki makna simbolis sebagai tanda berkat, kasih sayang, dan penghormatan, dan biasanya digunakan dalam berbagai acara adat."
+  },
+  {
+    "materialId": "batak_sejarah",
+    "tribeId": "batak",
+    "topic": "Sejarah",
+    "title": "Sejarah Suku Batak",
+    "content": "Suku Batak berasal dari wilayah Sumatera Utara dan telah berkembang sejak ratusan tahun lalu. Masyarakat Batak dikenal dengan sistem marga yang menjadi identitas keluarga dan warisan budaya yang terus dijaga."
+  },
+  {
+    "materialId": "batak_hari_raya",
+    "tribeId": "batak",
+    "topic": "Hari raya",
+    "title": "Hari Raya Suku Batak",
+    "content": "Masyarakat Batak merayakan berbagai hari besar keagamaan dan adat. Perayaan ini biasanya diisi dengan doa bersama, acara adat, serta kebersamaan keluarga dan masyarakat."
+  },
+  {
+    "materialId": "batak_prasasti",
+    "tribeId": "batak",
+    "topic": "Prasasti",
+    "title": "Prasasti dan Peninggalan Batak",
+    "content": "Beberapa peninggalan sejarah Batak dapat ditemukan dalam bentuk prasasti, naskah kuno, dan situs budaya. Peninggalan ini menjadi bukti perkembangan budaya dan peradaban Batak di masa lalu."
+  },
+
+  {
+    "materialId": "minang_adat",
+    "tribeId": "minang",
+    "topic": "Adat istiadat",
+    "title": "Adat Istiadat Suku Minangkabau",
+    "content": "Suku Minangkabau memiliki adat istiadat yang dikenal dengan sistem matrilineal, yaitu garis keturunan yang ditarik dari pihak ibu. Adat Minang mengatur kehidupan sosial, keluarga, dan masyarakat secara turun-temurun."
+  },
+  {
+    "materialId": "minang_baju",
+    "tribeId": "minang",
+    "topic": "Baju adat",
+    "title": "Baju Adat Suku Minangkabau",
+    "content": "Baju adat Minangkabau memiliki ciri khas pada penutup kepala yang disebut suntiang. Pakaian adat ini biasanya digunakan dalam upacara pernikahan dan acara adat penting lainnya."
+  },
+  {
+    "materialId": "minang_sejarah",
+    "tribeId": "minang",
+    "topic": "Sejarah",
+    "title": "Sejarah Suku Minangkabau",
+    "content": "Suku Minangkabau berasal dari Sumatera Barat dan memiliki sejarah panjang dalam perdagangan dan budaya. Masyarakat Minang dikenal luas karena tradisi merantau dan nilai kebersamaan yang kuat."
+  },
+  {
+    "materialId": "minang_hari_raya",
+    "tribeId": "minang",
+    "topic": "Hari raya",
+    "title": "Hari Raya Suku Minangkabau",
+    "content": "Hari raya di Minangkabau umumnya berkaitan dengan perayaan keagamaan dan adat. Perayaan ini sering diisi dengan kegiatan keluarga, masakan khas, dan acara adat."
+  },
+  {
+    "materialId": "minang_prasasti",
+    "tribeId": "minang",
+    "topic": "Prasasti",
+    "title": "Prasasti dan Peninggalan Minangkabau",
+    "content": "Peninggalan sejarah Minangkabau dapat ditemukan dalam bentuk rumah adat, naskah kuno, dan situs budaya. Peninggalan ini mencerminkan nilai adat dan sejarah masyarakat Minang."
+  },
+
+  {
+    "materialId": "toraja_adat",
+    "tribeId": "toraja",
+    "topic": "Adat istiadat",
+    "title": "Adat Istiadat Suku Toraja",
+    "content": "Suku Toraja memiliki adat istiadat yang sangat kuat, terutama dalam upacara kematian. Upacara adat Toraja dikenal sebagai bentuk penghormatan terakhir kepada leluhur."
+  },
+  {
+    "materialId": "toraja_baju",
+    "tribeId": "toraja",
+    "topic": "Baju adat",
+    "title": "Baju Adat Suku Toraja",
+    "content": "Baju adat Toraja biasanya digunakan dalam upacara adat dan memiliki warna serta motif khas. Pakaian ini mencerminkan status sosial dan identitas budaya masyarakat Toraja."
+  },
+  {
+    "materialId": "toraja_sejarah",
+    "tribeId": "toraja",
+    "topic": "Sejarah",
+    "title": "Sejarah Suku Toraja",
+    "content": "Suku Toraja berasal dari Sulawesi Selatan dan memiliki sejarah panjang yang berkaitan dengan kepercayaan dan adat leluhur. Budaya Toraja dikenal luas hingga ke mancanegara."
+  },
+  {
+    "materialId": "toraja_hari_raya",
+    "tribeId": "toraja",
+    "topic": "Hari raya",
+    "title": "Hari Raya Suku Toraja",
+    "content": "Hari raya dan perayaan adat Toraja sering berkaitan dengan upacara tradisional. Perayaan ini menjadi momen penting untuk berkumpulnya keluarga dan masyarakat."
+  },
+  {
+    "materialId": "toraja_prasasti",
+    "tribeId": "toraja",
+    "topic": "Prasasti",
+    "title": "Prasasti dan Peninggalan Toraja",
+    "content": "Peninggalan sejarah Toraja dapat dilihat pada rumah adat tongkonan, ukiran kayu, dan situs pemakaman batu. Peninggalan ini mencerminkan nilai sejarah dan budaya Toraja."
+  }
+]
