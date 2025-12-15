@@ -1,5 +1,6 @@
 package com.example.herita.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,12 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.herita.data.local.TribeEntity
 
 // Color definitions
 private val BrownDark = Color(0xFF4A3428)
@@ -28,17 +32,39 @@ private val OffWhite = Color(0xFFF5F5F5)
 // Content component without bottom navigation
 @Composable
 fun TribeSelectionContent(
-    currentTribe: String = "Batak",
+    tribes: List<TribeEntity>,
     progress: Int = 50,
-    onPreviousClick: () -> Unit = {},
-    onNextClick: () -> Unit = {},
-    onSelectClick: () -> Unit = {},
+    onSelectClick: (TribeEntity) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    // State untuk melacak index tribe yang sedang ditampilkan
+    var currentIndex by remember { mutableIntStateOf(0) }
+    val context = LocalContext.current
+
+    // Pastikan list tidak kosong
+    if (tribes.isEmpty()) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(OffWhite),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Tidak ada data suku",
+                fontSize = 18.sp,
+                color = Color.Gray
+            )
+        }
+        return
+    }
+
+    // Tribe yang sedang ditampilkan
+    val currentTribe = tribes[currentIndex]
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(OffWhite)
+            .background(Color.White)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
@@ -79,13 +105,22 @@ fun TribeSelectionContent(
         ) {
             // Previous arrow
             IconButton(
-                onClick = onPreviousClick,
-                modifier = Modifier.size(48.dp)
+                onClick = {
+                    // Navigasi ke tribe sebelumnya (circular)
+                    currentIndex = if (currentIndex > 0) {
+                        currentIndex - 1
+                    } else {
+                        tribes.size - 1
+                    }
+                },
+                modifier = Modifier.size(48.dp),
+                enabled = tribes.size > 1
             ) {
                 Icon(
                     painter = painterResource(id = android.R.drawable.ic_media_previous),
                     contentDescription = "Previous",
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(32.dp),
+                    tint = if (tribes.size > 1) Color.Black else Color.Gray
                 )
             }
 
@@ -93,24 +128,49 @@ fun TribeSelectionContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Placeholder for character image
+                // Gambar tribe dari resources
                 Box(
                     modifier = Modifier
-                        .size(200.dp)
-                        .background(Color.LightGray.copy(alpha = 0.3f), RoundedCornerShape(8.dp)),
+                        .size(200.dp),
+//                        .background(Color.White, RoundedCornerShape(8.dp))
+//                        .shadow(2.dp, RoundedCornerShape(8.dp)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "Character\nImage",
-                        textAlign = TextAlign.Center,
-                        color = Color.Gray
-                    )
+                    // Ambil resource ID dari imageName
+                    val imageResId = remember(currentTribe.imageName) {
+                        context.resources.getIdentifier(
+                            currentTribe.imageName,
+                            "drawable",
+                            context.packageName
+                        )
+                    }
+
+                    if (imageResId != 0) {
+                        Image(
+                            painter = painterResource(id = imageResId),
+                            contentDescription = "Gambar ${currentTribe.name}",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(2.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    } else {
+                        // Fallback jika gambar tidak ditemukan
+                        Text(
+                            text = currentTribe.name,
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = BrownDark
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Nama tribe
                 Text(
-                    text = currentTribe,
+                    text = currentTribe.name,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -118,22 +178,31 @@ fun TribeSelectionContent(
 
             // Next arrow
             IconButton(
-                onClick = onNextClick,
-                modifier = Modifier.size(48.dp)
+                onClick = {
+                    // Navigasi ke tribe selanjutnya (circular)
+                    currentIndex = if (currentIndex < tribes.size - 1) {
+                        currentIndex + 1
+                    } else {
+                        0
+                    }
+                },
+                modifier = Modifier.size(48.dp),
+                enabled = tribes.size > 1
             ) {
                 Icon(
                     painter = painterResource(id = android.R.drawable.ic_media_next),
                     contentDescription = "Next",
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(32.dp),
+                    tint = if (tribes.size > 1) Color.Black else Color.Gray
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(48.dp))
 
         // Select button
         Button(
-            onClick = onSelectClick,
+            onClick = { onSelectClick(currentTribe) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -143,7 +212,7 @@ fun TribeSelectionContent(
             )
         ) {
             Text(
-                text = "Pilih",
+                text = "Pilih ${currentTribe.name}",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -224,6 +293,7 @@ fun LearningMaterialContent(
 // Content component without bottom navigation
 @Composable
 fun TopicSelectionContent(
+    tribe: String = "",
     topics: List<String> = listOf(
         "Adat istiadat",
         "Baju adat",
@@ -232,7 +302,7 @@ fun TopicSelectionContent(
         "Prasasti"
     ),
     selectedTopic: String = "Sejarah",
-    onTopicSelected: (String) -> Unit = {},
+    onTopicSelected: (tribe: String, topic: String) -> Unit = {_,_ ->},
     onSelectClick: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
     modifier: Modifier = Modifier
@@ -289,7 +359,7 @@ fun TopicSelectionContent(
                         isSelected = topic == currentSelectedTopic,
                         onClick = {
                             currentSelectedTopic = topic
-                            onTopicSelected(topic)
+                            onTopicSelected(tribe, topic)
                         }
                     )
                 }
@@ -345,24 +415,50 @@ fun TopicSelectionContent(
 // ====================================
 
 // Screen with bottom navigation
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun TribeSelectionScreen(
-    currentTribe: String = "Batak",
-    progress: Int = 50,
-    onPreviousClick: () -> Unit = {},
-    onNextClick: () -> Unit = {},
-    onSelectClick: () -> Unit = {}
-) {
-    Scaffold(
-        bottomBar = { CustomBottomNavigationBar() }
-    ) { paddingValues ->
+fun TribeSelectionContentPreview() {
+    // Dummy data untuk preview
+    val dummyTribes = listOf(
+        TribeEntity(
+            tribeId = "1",
+            name = "Batak",
+            description = "Suku Batak",
+            imageName = "ic_launcher_foreground" // Menggunakan default Android icon untuk preview
+        ),
+        TribeEntity(
+            tribeId = "2",
+            name = "Jawa",
+            description = "Suku Jawa merupakan suku terbesar di Indonesia",
+            imageName = "ic_launcher_foreground"
+        ),
+        TribeEntity(
+            tribeId = "3",
+            name = "Minangkabau",
+            description = "Suku Minang terkenal dengan sistem matrilineal",
+            imageName = "ic_launcher_foreground"
+        ),
+        TribeEntity(
+            tribeId = "4",
+            name = "Sunda",
+            description = "Suku Sunda berasal dari Jawa Barat",
+            imageName = "ic_launcher_foreground"
+        ),
+        TribeEntity(
+            tribeId = "5",
+            name = "Dayak",
+            description = "Suku Dayak merupakan penduduk asli Kalimantan",
+            imageName = "ic_launcher_foreground"
+        )
+    )
+
+    MaterialTheme {
         TribeSelectionContent(
-            currentTribe = currentTribe,
-            progress = progress,
-            onPreviousClick = onPreviousClick,
-            onNextClick = onNextClick,
-            onSelectClick = onSelectClick,
-            modifier = Modifier.padding(paddingValues)
+            tribes = dummyTribes,
+            progress = 75,
+            onSelectClick = { tribe ->
+                println("Selected tribe: ${tribe.name}")
+            }
         )
     }
 }
@@ -389,6 +485,7 @@ fun LearningMaterialScreen(
 // Screen with bottom navigation
 @Composable
 fun TopicSelectionScreen(
+    tribe: String = "",
     topics: List<String> = listOf(
         "Adat istiadat",
         "Baju adat",
@@ -397,7 +494,7 @@ fun TopicSelectionScreen(
         "Prasasti"
     ),
     selectedTopic: String = "Sejarah",
-    onTopicSelected: (String) -> Unit = {},
+    onTopicSelected: (String, String) -> Unit = {_,_ ->},
     onNavigateToMaterial: (String) -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
@@ -405,6 +502,7 @@ fun TopicSelectionScreen(
         bottomBar = { CustomBottomNavigationBar() }
     ) { paddingValues ->
         TopicSelectionContent(
+            tribe = tribe,
             topics = topics,
             selectedTopic = selectedTopic,
             onTopicSelected = onTopicSelected,
@@ -453,15 +551,6 @@ fun TopicButton(
 // ====================================
 // PREVIEWS FOR CONTENT COMPONENTS
 // ====================================
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun TribeSelectionContentPreview() {
-    MaterialTheme {
-        TribeSelectionContent()
-    }
-}
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LearningMaterialContentPreview() {
@@ -481,14 +570,6 @@ fun TopicSelectionContentPreview() {
 // ====================================
 // PREVIEWS FOR FULL SCREENS
 // ====================================
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun TribeSelectionScreenPreview() {
-    MaterialTheme {
-        TribeSelectionScreen()
-    }
-}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

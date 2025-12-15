@@ -123,6 +123,7 @@ fun CustomBottomNavigationBar(
         modifier = modifier
             .fillMaxWidth()
             .height(80.dp)
+            .background(Color.White)
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
             .background(BottomNavBackground)
             .padding(horizontal = 16.dp, vertical = 12.dp)

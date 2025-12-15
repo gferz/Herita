@@ -2,6 +2,7 @@ package com.example.herita.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import com.example.herita.data.local.UserDao
 import com.example.herita.data.local.UserEntity
 import com.example.herita.data.repository.UserRepository
 import com.example.herita.view.LoadingScreen
+import kotlinx.coroutines.DEBUG_PROPERTY_NAME
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +30,7 @@ class InitViewModel(application: Application) : AndroidViewModel(application){
     val initDataState: StateFlow<InitDataState> = _initDataState.asStateFlow()
 
 
-    private val _userData: UserEntity? = null
+    private var _userData: UserEntity? = null
 
     private val userRepository: UserRepository
 
@@ -37,9 +39,11 @@ class InitViewModel(application: Application) : AndroidViewModel(application){
         userRepository = UserRepository(database.userDao())
         viewModelScope.launch {
             userRepository.getUser().collect { user ->
-                _initDataState.value = if (user != null) {
-                    InitDataState.HasUser(user)
-                } else {
+                if(user != null){
+                    _initDataState.value = InitDataState.HasUser(user)
+                    _userData = user
+                    Log.d("INIT", user.name)
+                }else{
                     InitDataState.NoUser
                 }
             }
@@ -56,8 +60,11 @@ class InitViewModel(application: Application) : AndroidViewModel(application){
         userRepository.createUser(name, age)
 
         userRepository.getUser().collect { user ->
-            _initDataState.value = if(user != null){
-                InitDataState.HasUser(user)
+
+            if(user != null){
+                _initDataState.value = InitDataState.HasUser(user)
+                _userData = user
+                Log.d("INIT", user.name)
             }else{
                 InitDataState.Error("Something Wrong")
             }

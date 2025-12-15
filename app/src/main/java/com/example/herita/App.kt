@@ -14,13 +14,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.herita.view.CustomBottomNavigationBar
+import com.example.herita.view.HomeContent
 import com.example.herita.view.LoadingScreen
+import com.example.herita.view.MaterialScreen
 import com.example.herita.view.QuizStartContent
 import com.example.herita.view.RegisterScreen
+import com.example.herita.view.TopicSelectionContent
+import com.example.herita.view.TribeScreen
 import com.example.herita.viewmodel.InitDataState
 import com.example.herita.viewmodel.InitViewModel
 
@@ -46,7 +52,7 @@ fun App(viewModel: InitViewModel = viewModel() ){
     }
 
     if (goToHome) {
-        var selectedIndex by remember { mutableIntStateOf(0) }
+        var selectedIndex by remember { mutableIntStateOf(1) }
 
         Scaffold(
             modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars),
@@ -54,7 +60,17 @@ fun App(viewModel: InitViewModel = viewModel() ){
                 CustomBottomNavigationBar(
                     selectedIndex = selectedIndex,
                     onItemSelected = { index ->
-                        selectedIndex = index
+                        if (selectedIndex != index){
+                            selectedIndex = index
+
+                            when(selectedIndex){
+                                0 -> {}
+                                1 -> {navController.navigate("quiz")}
+                                2 -> {navController.navigate("home")}
+                                3 -> {navController.navigate("tribe")}
+                                4 -> {}
+                            }
+                        }
                     }
                 )
             }
@@ -67,12 +83,60 @@ fun App(viewModel: InitViewModel = viewModel() ){
                 composable("register"){}
 
                 composable("home"){
-
+                    HomeContent(
+                        userName = viewModel.getUser()?.name ?: "",
+                        onBelajarClick = {
+                            selectedIndex = 3
+                            navController.navigate("tribe")
+                        },
+                        onKuisClick = {
+                            selectedIndex = 1
+                            navController.navigate("quiz")
+                        }
+                    )
                 }
 
                 composable("add"){}
 
                 composable("learn"){}
+
+//                composable(
+//                    route = "material/{tribeName}/{topic}",
+//                    arguments = listOf(
+//                        navArgument("tribeName") {
+//                            type = NavType.StringType
+//                        },
+//                        navArgument("topic"){
+//                            type = NavType.StringType
+//                        }
+//                    )
+//                ){ backStackEntry ->
+//                    val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
+//                    val topic = backStackEntry.arguments?.getString("topic") ?: ""
+//
+//                    MaterialScreen(tribeId = tribeName, topic = topic, onBackPressed = {})
+//                }
+
+                composable("tribe") {
+                    TribeScreen(
+                        onTribeSelected = {tribe -> navController.navigate(tribe.name)}
+                    )
+                }
+//
+//                composable(
+//                    route = "topic",
+//                    arguments = listOf(
+//                        navArgument("tribeName") {
+//                            type = NavType.StringType
+//                        }
+//                    )
+//                ){ backStackEntry ->
+//                    val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
+//                    TopicSelectionContent(
+//                        tribe = tribeName,
+//                        onBackClick = { navController.navigate("tribe") }
+//                    )
+//                }
 
                 composable("quiz"){
                     QuizStartContent(
