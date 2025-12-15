@@ -44,7 +44,7 @@ class InitViewModel(application: Application) : AndroidViewModel(application){
                     _userData = user
                     Log.d("INIT", user.name)
                 }else{
-                    InitDataState.NoUser
+                    _initDataState.value = InitDataState.NoUser
                 }
             }
         }
@@ -64,7 +64,6 @@ class InitViewModel(application: Application) : AndroidViewModel(application){
             if(user != null){
                 _initDataState.value = InitDataState.HasUser(user)
                 _userData = user
-                Log.d("INIT", user.name)
             }else{
                 InitDataState.Error("Something Wrong")
             }
