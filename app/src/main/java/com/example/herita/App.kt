@@ -24,7 +24,6 @@ import com.example.herita.view.HomeContent
 import com.example.herita.view.LoadingScreen
 import com.example.herita.view.MaterialScreen
 import com.example.herita.view.QuizCompletedContent
-import com.example.herita.view.QuizCompletedScreen
 import com.example.herita.view.QuizReviewScreen
 import com.example.herita.view.QuizStartContent
 import com.example.herita.view.RegisterScreen

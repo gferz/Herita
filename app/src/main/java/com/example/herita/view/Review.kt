@@ -51,7 +51,6 @@ fun QuizReviewScreen(
                 onRetry = { viewModel.retry() }
             )
         }
-        else -> {}
     }
 }
 

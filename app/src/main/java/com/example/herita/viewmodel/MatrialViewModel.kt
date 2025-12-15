@@ -47,33 +47,6 @@ class MaterialViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-
-    /**
-     * Tandai material sebagai selesai
-     */
-    fun completeMaterial(materialId: String) {
-        viewModelScope.launch {
-            try {
-                repository.completeMaterial(materialId)
-            } catch (e: Exception) {
-                // Handle error jika perlu
-                _uiState.value = MaterialUiState.Error(
-                    e.message ?: "Gagal menandai material sebagai selesai"
-                )
-            }
-        }
-    }
-
-    /**
-     * Get progress untuk tribe tertentu
-     */
-    suspend fun getProgressForTribe(tribeId: String): Float {
-        return try {
-            repository.getProgressForTribe(tribeId)
-        } catch (e: Exception) {
-            0f
-        }
-    }
 }
 
 /**

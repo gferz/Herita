@@ -1,17 +1,12 @@
 package com.example.herita.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.herita.data.local.AppDatabase
-import com.example.herita.data.local.UserDao
 import com.example.herita.data.local.UserEntity
 import com.example.herita.data.repository.UserRepository
-import com.example.herita.view.LoadingScreen
-import kotlinx.coroutines.DEBUG_PROPERTY_NAME
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
