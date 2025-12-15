@@ -14,6 +14,7 @@ gson = "2.11.0"
 navigationCompose = "2.9.6"
 ui = "1.10.0"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
