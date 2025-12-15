@@ -43,7 +43,7 @@ fun HomeContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Greeting Text
-            Column {
+            Column(modifier = Modifier.padding(20.dp)) {
                 Text(
                     text = "Halo,",
                     fontSize = 32.sp,
@@ -106,15 +106,15 @@ fun HomeContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DashboardActionButton(
-            title = "Review",
-            description = "Melihat kembali Topik dan\nKuis yang telah dipelajari",
-            gradientColors = listOf(
-                Color(0xFF6B1A28),
-                Color(0xFFE8604D)
-            ),
-            onClick = onReviewClick
-        )
+//        DashboardActionButton(
+//            title = "Review",
+//            description = "Melihat kembali Topik dan\nKuis yang telah dipelajari",
+//            gradientColors = listOf(
+//                Color(0xFF6B1A28),
+//                Color(0xFFE8604D)
+//            ),
+//            onClick = onReviewClick
+//        )
 
         Spacer(modifier = Modifier.weight(1f))
     }

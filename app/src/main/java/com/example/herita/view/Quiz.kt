@@ -1,5 +1,6 @@
 package com.example.herita.view
 
+import androidx.compose.foundation.BorderStroke
 import com.example.herita.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.herita.viewmodel.QuizUiState
+import com.example.herita.viewmodel.QuizViewModel
 
 // ==================== Color Palette ====================
 object QuizColors {
@@ -228,6 +232,8 @@ fun QuizStartContent(
 }
 
 // ==================== Quiz Question Screen Content ====================
+// ==================== Quiz Question Screen Content ====================
+// ==================== Quiz Question Screen Content ====================
 @Composable
 fun QuizQuestionContent(
     questionNumber: Int = 1,
@@ -237,8 +243,12 @@ fun QuizQuestionContent(
     questionDetail: String = "Gambar tersebut merupakan pulau ...",
     options: List<String> = listOf("Sumatera", "Jawa", "Bali", "Papua"),
     selectedOption: Int? = null,
+    isFirst: Boolean = false,
+    isLast: Boolean = true,
     onOptionSelected: (Int) -> Unit = {},
-    onNext: () -> Unit = {}
+    onPrevious: () -> Unit = {},
+    onNext: () -> Unit = {},
+    onSubmit: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -247,21 +257,9 @@ fun QuizQuestionContent(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Timer Badge
-        Surface(
-            shape = RoundedCornerShape(24.dp),
-            color = Color(0xFFE0E0E0),
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text(
-                text = "Sisa Waktu: $timeRemaining",
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
 
-        Spacer(modifier = Modifier.height(32.dp))
+
+        Spacer(modifier = Modifier.height(70.dp))
 
         // Question Title
         Text(
@@ -271,35 +269,18 @@ fun QuizQuestionContent(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Map/Image Placeholder
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp)
-                .background(Color(0xFF4DB6AC), RoundedCornerShape(16.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            // Placeholder untuk gambar peta
-            Icon(
-                Icons.Default.Map,
-                contentDescription = null,
-                modifier = Modifier.size(80.dp),
-                tint = Color.White.copy(alpha = 0.7f)
-            )
-        }
-
         Spacer(modifier = Modifier.height(24.dp))
 
         // Question Detail
         Text(
             text = questionDetail,
-            fontSize = 14.sp,
-            color = Color.Gray
+            fontSize = 16.sp,
+            color = Color.Gray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(48.dp))
 
         // Options Grid
         Column(
@@ -344,25 +325,171 @@ fun QuizQuestionContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Next Button
-        Button(
-            onClick = onNext,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = QuizColors.ButtonPrimary
-            ),
-            shape = RoundedCornerShape(28.dp)
+        // Navigation Buttons (Previous and Next/Submit)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = "Lanjut",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+            when {
+                // Jika pertanyaan pertama, hanya tampilkan tombol Selanjutnya
+                isFirst -> {
+                    Button(
+                        onClick = onNext,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = QuizColors.ButtonPrimary
+                        ),
+                        shape = RoundedCornerShape(28.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Selanjutnya",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                Icons.Default.ArrowForward,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+                }
+                // Jika pertanyaan terakhir, tampilkan Sebelumnya dan Submit
+                isLast -> {
+                    // Previous Button
+                    OutlinedButton(
+                        onClick = onPrevious,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = Color.Black
+                        ),
+                        border = BorderStroke(1.dp, Color.Black)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.ArrowBack,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Sebelumnya",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
+
+                    // Submit Button
+                    Button(
+                        onClick = onSubmit,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = QuizColors.ButtonPrimary
+                        ),
+                        shape = RoundedCornerShape(28.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Submit",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                Icons.Default.Check,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+                }
+                // Jika pertanyaan di tengah, tampilkan Sebelumnya dan Selanjutnya
+                else -> {
+                    // Previous Button
+                    OutlinedButton(
+                        onClick = onPrevious,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = Color.Black
+                        ),
+                        border = BorderStroke(1.dp, Color.Black)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.ArrowBack,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Sebelumnya",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
+
+                    // Next Button
+                    Button(
+                        onClick = onNext,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = QuizColors.ButtonPrimary
+                        ),
+                        shape = RoundedCornerShape(28.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Selanjutnya",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                Icons.Default.ArrowForward,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+                }
+            }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
+
 
 // ==================== Quiz Review Screen Content ====================
 @Composable
@@ -379,7 +506,7 @@ fun QuizReviewContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF3E0))
+            .background(Color.White)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -523,7 +650,6 @@ data class QuizQuestionResult(
 // ==================== Quiz Completed Screen Content ====================
 @Composable
 fun QuizCompletedContent(
-    completedTime: String = "06:20:39",
     onViewDiscussion: () -> Unit = {}
 ) {
     Column(
@@ -534,19 +660,6 @@ fun QuizCompletedContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Completed Time Badge
-        Surface(
-            shape = RoundedCornerShape(24.dp),
-            color = Color(0xFFE0E0E0),
-            modifier = Modifier.padding(top = 32.dp)
-        ) {
-            Text(
-                text = "Kuis berikutnya: $completedTime",
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
 
         // Middle Content
         Column(
@@ -703,7 +816,6 @@ fun QuizCompletedScreen(
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             QuizCompletedContent(
-                completedTime = completedTime,
                 onViewDiscussion = onViewDiscussion
             )
         }

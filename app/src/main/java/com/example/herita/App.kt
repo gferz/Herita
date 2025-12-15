@@ -23,6 +23,9 @@ import com.example.herita.view.CustomBottomNavigationBar
 import com.example.herita.view.HomeContent
 import com.example.herita.view.LoadingScreen
 import com.example.herita.view.MaterialScreen
+import com.example.herita.view.QuizCompletedContent
+import com.example.herita.view.QuizCompletedScreen
+import com.example.herita.view.QuizReviewScreen
 import com.example.herita.view.QuizStartContent
 import com.example.herita.view.RegisterScreen
 import com.example.herita.view.TopicSelectionContent
@@ -64,11 +67,9 @@ fun App(viewModel: InitViewModel = viewModel() ){
                             selectedIndex = index
 
                             when(selectedIndex){
-                                0 -> {}
-                                1 -> {navController.navigate("quiz")}
-                                2 -> {navController.navigate("home")}
-                                3 -> {navController.navigate("tribe")}
-                                4 -> {}
+                                0 -> {navController.navigate("quiz")}
+                                1 -> {navController.navigate("home")}
+                                2 -> {navController.navigate("tribe")}
                             }
                         }
                     }
@@ -77,20 +78,19 @@ fun App(viewModel: InitViewModel = viewModel() ){
         ){ paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = "quiz",
+                startDestination = "home",
                 modifier = Modifier.padding(paddingValues)
             ){
-                composable("register"){}
 
                 composable("home"){
                     HomeContent(
                         userName = viewModel.getUser()?.name ?: "",
                         onBelajarClick = {
-                            selectedIndex = 3
+                            selectedIndex = 2
                             navController.navigate("tribe")
                         },
                         onKuisClick = {
-                            selectedIndex = 1
+                            selectedIndex = 0
                             navController.navigate("quiz")
                         }
                     )
@@ -146,13 +146,23 @@ fun App(viewModel: InitViewModel = viewModel() ){
                 composable("quiz"){
                     QuizStartContent(
                         totalQuestions = 30,
-                        onStartQuiz = {}
+                        onStartQuiz = {
+                            navController.navigate("review")
+                        }
+                    )
+
+                    QuizCompletedContent(
+                        onViewDiscussion = {navController.navigate("review")}
                     )
                 }
 
-                composable("profile"){}
+                composable("review"){
+                    QuizReviewScreen(onFinish = {
+                        selectedIndex = 1
+                        navController.navigate("home")
+                    })
+                }
 
-                composable("list"){}
             }
         }
 

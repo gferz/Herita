@@ -45,11 +45,11 @@ data class BottomNavItem(
 )
 
 val bottomNavItemList = listOf(
-    BottomNavItem(route = "List", label = "list", icon = Icons.AutoMirrored.Filled.List),
+//    BottomNavItem(route = "List", label = "list", icon = Icons.AutoMirrored.Filled.List),
     BottomNavItem(route = "Quiz", label = "quiz", icon = Icons.Default.Quiz),
     BottomNavItem(route = "Home", label = "home" ,icon = Icons.Default.Home),
     BottomNavItem(route = "Learn", label = "learn", icon = Icons.AutoMirrored.Filled.Assignment),
-    BottomNavItem(route = "Profile", label = "profile", icon = Icons.Default.Person)
+//    BottomNavItem(route = "Profile", label = "profile", icon = Icons.Default.Person)
 )
 
 
