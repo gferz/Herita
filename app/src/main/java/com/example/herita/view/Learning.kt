@@ -70,20 +70,6 @@ fun TribeSelectionContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Progress indicator
-        Surface(
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .shadow(4.dp, RoundedCornerShape(24.dp)),
-            shape = RoundedCornerShape(24.dp),
-            color = Color.White
-        ) {
-            Text(
-                text = "Progress: $progress%",
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
-                fontWeight = FontWeight.Medium
-            )
-        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -296,7 +282,7 @@ fun LearningMaterialContent(
 fun TopicSelectionContent(
     tribe: String = "",
     topics: List<String> = listOf(
-        "Budaya",
+        "Adat",
         "Baju adat",
         "Sejarah",
         "Hari raya",
@@ -366,7 +352,7 @@ fun TopicSelectionContent(
                         isSelected = topic == currentSelectedTopic,
                         onClick = {
                             currentSelectedTopic = topic
-                            onTopicSelected(tribe, topic)
+//                            onTopicSelected(tribe, topic)
                         }
                     )
                 }
@@ -377,7 +363,9 @@ fun TopicSelectionContent(
 
         // Select button - will navigate to the selected topic's material
         Button(
-            onClick = { onSelectClick(currentSelectedTopic) },
+            onClick = {
+                onTopicSelected(tribe, currentSelectedTopic)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -494,7 +482,7 @@ fun LearningMaterialScreen(
 fun TopicSelectionScreen(
     tribe: String = "",
     topics: List<String> = listOf(
-        "Adat istiadat",
+        "Adat",
         "Baju adat",
         "Sejarah",
         "Hari raya",
@@ -536,7 +524,7 @@ fun TopicButton(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .width(160.dp)
+            .width(200.dp)
             .height(48.dp),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(

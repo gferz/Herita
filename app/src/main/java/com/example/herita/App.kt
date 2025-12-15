@@ -96,10 +96,6 @@ fun App(viewModel: InitViewModel = viewModel() ){
                     )
                 }
 
-                composable("add"){}
-
-                composable("learn"){}
-
                 composable(
                     route = "material/{tribeName}/{topic}",
                     arguments = listOf(
@@ -114,7 +110,7 @@ fun App(viewModel: InitViewModel = viewModel() ){
                     val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
                     val topic = backStackEntry.arguments?.getString("topic") ?: ""
 
-                    MaterialScreen(tribeId = tribeName, topic = topic, onBackPressed = {})
+                    MaterialScreen(tribeId = tribeName, topic = topic, onBackPressed = { navController.navigate("tribe") })
                 }
 
                 composable("tribe") {
@@ -137,7 +133,13 @@ fun App(viewModel: InitViewModel = viewModel() ){
                     val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
                     TopicSelectionContent(
                         tribe = tribeName,
-                        onBackClick = { navController.navigate("tribe") }
+                        onBackClick = {
+                            navController.navigate("tribe")
+                        },
+                        onTopicSelected = {tribeId, topic ->
+                            val path: String = "material/$tribeId/$topic"
+                            navController.navigate(path)
+                        },
                     )
                 }
 
