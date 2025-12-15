@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.herita.R
 import com.example.herita.data.local.TribeEntity
 
 // Color definitions
@@ -295,7 +296,7 @@ fun LearningMaterialContent(
 fun TopicSelectionContent(
     tribe: String = "",
     topics: List<String> = listOf(
-        "Adat istiadat",
+        "Budaya",
         "Baju adat",
         "Sejarah",
         "Hari raya",
@@ -312,7 +313,7 @@ fun TopicSelectionContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(OffWhite)
+            .background(Color.White)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -337,14 +338,20 @@ fun TopicSelectionContent(
             // Character placeholder
             Box(
                 modifier = Modifier
-                    .size(150.dp)
-                    .background(Color.LightGray.copy(alpha = 0.3f), RoundedCornerShape(8.dp)),
+//                    .size(200.dp)
+                    .height(350.dp)
+                    .width(200.dp)
+                ,
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "Character\nImage",
-                    textAlign = TextAlign.Center,
-                    color = Color.Gray
+                Image(
+                    painter = painterResource(id = R.drawable.point),
+                    contentDescription = "Deskripsi",
+                    modifier = Modifier
+                        .height(350.dp)
+                        .width(200.dp)
+                    ,
+                    contentScale = ContentScale.Fit // atau Fit, FillBounds, dll
                 )
             }
 

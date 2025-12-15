@@ -100,43 +100,46 @@ fun App(viewModel: InitViewModel = viewModel() ){
 
                 composable("learn"){}
 
-//                composable(
-//                    route = "material/{tribeName}/{topic}",
-//                    arguments = listOf(
-//                        navArgument("tribeName") {
-//                            type = NavType.StringType
-//                        },
-//                        navArgument("topic"){
-//                            type = NavType.StringType
-//                        }
-//                    )
-//                ){ backStackEntry ->
-//                    val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
-//                    val topic = backStackEntry.arguments?.getString("topic") ?: ""
-//
-//                    MaterialScreen(tribeId = tribeName, topic = topic, onBackPressed = {})
-//                }
+                composable(
+                    route = "material/{tribeName}/{topic}",
+                    arguments = listOf(
+                        navArgument("tribeName") {
+                            type = NavType.StringType
+                        },
+                        navArgument("topic"){
+                            type = NavType.StringType
+                        }
+                    )
+                ){ backStackEntry ->
+                    val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
+                    val topic = backStackEntry.arguments?.getString("topic") ?: ""
+
+                    MaterialScreen(tribeId = tribeName, topic = topic, onBackPressed = {})
+                }
 
                 composable("tribe") {
                     TribeScreen(
-                        onTribeSelected = {tribe -> navController.navigate(tribe.name)}
+                        onTribeSelected = { tribe ->
+                            val path: String = "topic/" + tribe.tribeId
+                            navController.navigate(path)
+                        }
                     )
                 }
-//
-//                composable(
-//                    route = "topic",
-//                    arguments = listOf(
-//                        navArgument("tribeName") {
-//                            type = NavType.StringType
-//                        }
-//                    )
-//                ){ backStackEntry ->
-//                    val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
-//                    TopicSelectionContent(
-//                        tribe = tribeName,
-//                        onBackClick = { navController.navigate("tribe") }
-//                    )
-//                }
+
+                composable(
+                    route = "topic/{tribeName}",
+                    arguments = listOf(
+                        navArgument("tribeName") {
+                            type = NavType.StringType
+                        }
+                    )
+                ){ backStackEntry ->
+                    val tribeName = backStackEntry.arguments?.getString("tribeName") ?: ""
+                    TopicSelectionContent(
+                        tribe = tribeName,
+                        onBackClick = { navController.navigate("tribe") }
+                    )
+                }
 
                 composable("quiz"){
                     QuizStartContent(
